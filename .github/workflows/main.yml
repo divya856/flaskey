@@ -23,9 +23,10 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Upgrade Werkzeug
+    - name: Fix Werkzeug import issue
       run: |
-        pip install --upgrade Werkzeug
+        sed -i 's/url_quote/unquote/g' /path/to/your/flask/app/directory/**/*.py
+        # Replace /path/to/your/flask/app/directory with the path to your Flask app directory
 
     - name: Build Flask app
       run: |
