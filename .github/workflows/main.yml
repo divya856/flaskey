@@ -1,4 +1,4 @@
-name: Build and Deploy
+name: Clone and Deploy
 
 on:
   push:
@@ -6,7 +6,7 @@ on:
       - main
 
 jobs:
-  build-and-deploy:
+  clone-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
@@ -23,44 +23,6 @@ jobs:
         python -m pip install --upgrade pip
         pip install -r requirements.txt
 
-    - name: Fix Werkzeug import issue
-      run: |
-        sed -i 's/url_quote/unquote/g' /path/to/your/flask/app/directory/**/*.py
-        # Replace /path/to/your/flask/app/directory with the path to your Flask app directory
-
-    - name: Build Flask app
-      run: |
-        # Add any additional build steps here if needed
-        # For example, if you're using Flask factory pattern:
-        export FLASK_APP=your_app:create_app
-        flask build  # Or any command you use to build your Flask app
-
     - name: Deploy Flask app
       run: |
-        # Create directories if they don't exist
-        sudo mkdir -p /path/to/your/flask/app/directory
-        # Copy files to the destination directory
-        sudo cp -r . /path/to/your/flask/app/directory
-        # Replace /path/to/your/flask/app/directory with your actual path
-
-        # Create or update the service file for Gunicorn
-        echo "[Unit]
-        Description=Gunicorn instance to serve Flask app
-        After=network.target
-
-        [Service]
-        User=your_username
-        Group=your_group
-        WorkingDirectory=/path/to/your/flask/app/directory
-        ExecStart=/usr/bin/gunicorn -w 3 -b 0.0.0.0:8000 your_app:app
-        Restart=always
-
-        [Install]
-        WantedBy=multi-user.target" | sudo tee /etc/systemd/system/your-gunicorn-service.service
-        # Replace your_username, your_group, /path/to/your/flask/app/directory, and your_app with your actual values
-
-        # Reload systemd to apply changes
-        sudo systemctl daemon-reload
-
-        # Restart Gunicorn service
-        sudo systemctl restart your-gunicorn-service
+        python app.py
