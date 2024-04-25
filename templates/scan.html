@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Network Scan Results</title>
+    <style>
+        .device {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Network Scan Results</h1>
+    <ul>
+        {% for device in devices %}
+            <li class="device">
+                <strong>IP:</strong> {{ device.ip }}<br>
+                <strong>MAC:</strong> {{ device.mac }}<br>
+                <strong>Status:</strong> {{ device.status }}
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
